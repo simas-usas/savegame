@@ -1,3 +1,3 @@
-import { setGameRating } from './user';
+import { setGameRating } from './userActions';
 
 export { setGameRating };

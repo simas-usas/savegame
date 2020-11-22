@@ -1,25 +1,59 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  Text,
+  Button,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import data from '../../data';
 
 const { width, height } = Dimensions.get('window');
 
+const selectRatingById = (state, id) => {
+  return state.user.ratings.find((rating) => rating.id === id);
+};
+
 const GameProfile = ({ route }) => {
   const id = route.params.id;
   const game = data.find((item) => item.id === id);
+  const userRating = useSelector((state) => selectRatingById(state, id));
+
+  const dispatch = useDispatch();
+
+  const onRate = (rating) => {
+    dispatch({ type: 'SET_GAME_RATING', payload: { rating, id } });
+  };
+
   return (
-    <View style={styles.gameProfile}>
-      <View style={styles.imageContainer}>
-        <Image source={game.image} style={styles.image} />
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{game.title}</Text>
-        <Text style={styles.year}>({game.year})</Text>
-        <View style={styles.developerContainer}>
-          <Text style={styles.defaultText}>Developed by</Text>
-          <Text style={styles.developer}>{game.developer}</Text>
+    <View>
+      <View style={styles.gameProfile}>
+        <View style={styles.imageContainer}>
+          <Image source={game.image} style={styles.image} />
         </View>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title}>{game.title}</Text>
+          <Text style={styles.year}>({game.year})</Text>
+          <View style={styles.developerContainer}>
+            <Text style={styles.defaultText}>Developed by</Text>
+            <Text style={styles.developer}>{game.developer}</Text>
+          </View>
+        </View>
+      </View>
+      <View>
+        <Text style={styles.defaultText}>
+          {userRating ? userRating.rating : 0}
+        </Text>
+      </View>
+      <View>
+        <Button title="1" color="#6b7f99" onPress={() => onRate(1)} />
+        <Button title="2" color="#6b7f99" onPress={() => onRate(2)} />
+        <Button title="3" color="#6b7f99" onPress={() => onRate(3)} />
+        <Button title="4" color="#6b7f99" onPress={() => onRate(4)} />
+        <Button title="5" color="#6b7f99" onPress={() => onRate(5)} />
       </View>
     </View>
   );
