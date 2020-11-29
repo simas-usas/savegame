@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
 import data from '../../data';
 
 const { width, height } = Dimensions.get('window');
@@ -53,7 +54,7 @@ const GameProfile = ({ route }) => {
             <Icon
               name="star"
               size={50}
-              color="#6b7f99"
+              color={FONT_COLOR}
               solid={userRatingValue >= rating}
             />
           </TouchableWithoutFeedback>
@@ -93,24 +94,24 @@ const styles = StyleSheet.create({
     width: undefined,
     resizeMode: 'contain',
     borderWidth: 1,
-    borderColor: '#6b7f99',
+    borderColor: PRIMARY_COLOR,
   },
   defaultText: {
-    color: '#b6c5d9',
+    color: FONT_COLOR,
     fontSize: 16,
   },
   title: {
-    color: '#b6c5d9',
+    color: FONT_COLOR,
     fontSize: 30,
     fontWeight: 'bold',
   },
   year: {
-    color: '#b6c5d9',
+    color: FONT_COLOR,
     fontSize: 16,
     fontWeight: 'bold',
   },
   developer: {
-    color: '#b6c5d9',
+    color: FONT_COLOR,
     fontSize: 16,
     fontWeight: 'bold',
   },

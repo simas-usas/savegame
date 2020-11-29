@@ -7,6 +7,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import { PRIMARY_COLOR } from '../../styles/colors';
+
 const { height, width } = Dimensions.get('window');
 
 const GameThumbnail = ({ data, navigation }) => (
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     width: undefined,
     resizeMode: 'contain',
     borderWidth: 1,
-    borderColor: '#6b7f99',
+    borderColor: PRIMARY_COLOR,
   },
 });
 
