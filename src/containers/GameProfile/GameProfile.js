@@ -5,9 +5,10 @@ import {
   Dimensions,
   Image,
   Text,
-  Button,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import data from '../../data';
 
@@ -17,10 +18,13 @@ const selectRatingById = (state, id) => {
   return state.user.ratings.find((rating) => rating.id === id);
 };
 
+const ratingOptions = [1, 2, 3, 4, 5];
+
 const GameProfile = ({ route }) => {
   const id = route.params.id;
   const game = data.find((item) => item.id === id);
   const userRating = useSelector((state) => selectRatingById(state, id));
+  const userRatingValue = userRating ? userRating.rating : 0
 
   const dispatch = useDispatch();
 
@@ -43,17 +47,17 @@ const GameProfile = ({ route }) => {
           </View>
         </View>
       </View>
-      <View>
-        <Text style={styles.defaultText}>
-          {userRating ? userRating.rating : 0}
-        </Text>
-      </View>
-      <View>
-        <Button title="1" color="#6b7f99" onPress={() => onRate(1)} />
-        <Button title="2" color="#6b7f99" onPress={() => onRate(2)} />
-        <Button title="3" color="#6b7f99" onPress={() => onRate(3)} />
-        <Button title="4" color="#6b7f99" onPress={() => onRate(4)} />
-        <Button title="5" color="#6b7f99" onPress={() => onRate(5)} />
+      <View style={styles.ratingsContainer}>
+        {ratingOptions.map((rating) => (
+          <TouchableWithoutFeedback key={rating} onPress={() => onRate(rating)}>
+            <Icon
+              name="star"
+              size={50}
+              color="#6b7f99"
+              solid={userRatingValue >= rating}
+            />
+          </TouchableWithoutFeedback>
+        ))}
       </View>
     </View>
   );
@@ -76,6 +80,12 @@ const styles = StyleSheet.create({
   },
   developerContainer: {
     marginTop: '7.5%',
+  },
+  ratingsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   image: {
     flex: 1,

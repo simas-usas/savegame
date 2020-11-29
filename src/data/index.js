@@ -231,4 +231,20 @@ export default [
     developer: 'Criterion Games',
     publisher: 'Electronic Arts',
   },
+  {
+    id: 30,
+    title: 'Borderlands 2',
+    year: 2012,
+    image: require('./images/co20tn.jpg'),
+    developer: 'Gearbox Software',
+    publisher: '2K Games',
+  },
+  {
+    id: 31,
+    title: 'Metal Gear Solid',
+    year: 1998,
+    image: require('./images/co1v82.jpg'),
+    developer: 'Konami',
+    publisher: 'Konami',
+  },
 ];
