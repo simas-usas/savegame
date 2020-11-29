@@ -24,7 +24,7 @@ const GameProfile = ({ route }) => {
   const id = route.params.id;
   const game = data.find((item) => item.id === id);
   const userRating = useSelector((state) => selectRatingById(state, id));
-  const userRatingValue = userRating ? userRating.rating : 0
+  const userRatingValue = userRating ? userRating.rating : 0;
 
   const dispatch = useDispatch();
 
