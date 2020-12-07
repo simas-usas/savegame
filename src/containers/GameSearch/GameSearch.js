@@ -5,15 +5,18 @@ import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
 
-const { width } = Dimensions.get('window');
-
 import data from '../../data';
 
-const GameList = ({ navigation }) => {
-  const userRatings = useSelector((state) =>
-    map(state.user.ratings, (item) => item.id),
-  );
-  const gameList = filter(data, (item) => includes(userRatings, item.id));
+const { width } = Dimensions.get('window');
+
+const GameSearch = ({ navigation }) => {
+  const searchInputValue = useSelector((state) => state.user.searchInput);
+  const gameList = searchInputValue
+    ? filter(data, (item) =>
+        includes(item.title.toLowerCase(), searchInputValue.toLowerCase()),
+      )
+    : [];
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -40,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameList;
+export default GameSearch;

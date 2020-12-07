@@ -1,3 +1,3 @@
-import { setGameRating } from './userActions';
+import { setGameRating, setGameSearchInput } from './userActions';
 
-export { setGameRating };
+export { setGameRating, setGameSearchInput };
