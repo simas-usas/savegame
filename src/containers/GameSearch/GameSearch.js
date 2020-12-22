@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('window');
 
 const GameSearch = ({ navigation }) => {
-  const searchInputValue = useSelector((state) => state.user.searchInput);
+  const searchInputValue = useSelector((state) => state.session.searchInput);
   const gameList = searchInputValue
     ? filter(data, (item) =>
         includes(item.title.toLowerCase(), searchInputValue.toLowerCase()),

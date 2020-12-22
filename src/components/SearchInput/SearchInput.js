@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
 import { FONT_COLOR } from '../../styles/colors';
-
-const { width } = Dimensions.get('window');
 
 const SearchInput = () => {
   const isFocused = useIsFocused();
@@ -18,8 +16,8 @@ const SearchInput = () => {
     }
   });
 
-  const onInputChange = (e) => {
-    dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload: e });
+  const onInputChange = (event) => {
+    dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload: event });
   };
 
   return (
