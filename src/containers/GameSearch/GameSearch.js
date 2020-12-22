@@ -7,6 +7,7 @@ import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
 
 import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
 import data from '../../data';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,20 +26,23 @@ const GameSearch = ({ navigation }) => {
     >
       <View style={styles.imageContainer}>
         {map(orderBy(gameList, ['year'], ['desc']), (item) => (
-          <>
+          <TouchableOpacity
+            key={item.id}
+            onPress={() =>
+              navigation.navigate('GameProfile', {
+                id: item.id,
+              })
+            }
+          >
             <View style={styles.itemContainer}>
-              <GameThumbnail
-                key={item.id}
-                data={item}
-                navigation={navigation}
-              />
+              <GameThumbnail data={item} navigation={navigation} />
               <View style={styles.textContainer}>
                 <Text style={styles.titleText}>{item.title}</Text>
                 <Text style={styles.yearText}>{item.year}</Text>
               </View>
             </View>
             <View style={styles.itemBorder} />
-          </>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

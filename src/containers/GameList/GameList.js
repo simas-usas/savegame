@@ -1,5 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Dimensions } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { orderBy, map, filter, includes } from 'lodash';
 
@@ -21,12 +27,16 @@ const GameList = ({ navigation }) => {
     >
       <View style={styles.imageContainer}>
         {map(orderBy(gameList, ['year'], ['desc']), (item) => (
-          <GameThumbnail
+          <TouchableOpacity
             key={item.id}
-            data={item}
-            navigation={navigation}
-            showRating
-          />
+            onPress={() =>
+              navigation.navigate('GameProfile', {
+                id: item.id,
+              })
+            }
+          >
+            <GameThumbnail data={item} navigation={navigation} showRating />
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
