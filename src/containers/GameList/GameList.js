@@ -21,7 +21,12 @@ const GameList = ({ navigation }) => {
     >
       <View style={styles.imageContainer}>
         {map(orderBy(gameList, ['year'], ['desc']), (item) => (
-          <GameThumbnail key={item.id} data={item} navigation={navigation} />
+          <GameThumbnail
+            key={item.id}
+            data={item}
+            navigation={navigation}
+            showRating
+          />
         ))}
       </View>
     </ScrollView>
