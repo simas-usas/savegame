@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+} from '@react-navigation/drawer';
 import { HeaderBackButton } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -34,11 +38,19 @@ const App: () => React$Node = () => {
     <Provider store={configureStore}>
       <NavigationContainer theme={theme} ref={navigationRef}>
         <Drawer.Navigator
-          drawerContentOptions={{
-            activeTintColor: FONT_COLOR,
-            activeBackgroundColor: PRIMARY_COLOR,
-            inactiveTintColor: FONT_COLOR,
-          }}
+          drawerContent={(props) => (
+            <DrawerContentScrollView {...props}>
+              <DrawerItem
+                label="Home"
+                focused={props.state.index === 0}
+                onPress={() => navigate('GameList')}
+                activeTintColor={FONT_COLOR}
+                activeBackgroundColor={PRIMARY_COLOR}
+                inactiveTintColor={FONT_COLOR}
+                style={styles.drawerItem}
+              />
+            </DrawerContentScrollView>
+          )}
           drawerStyle={{
             backgroundColor: SECONDARY_COLOR,
           }}
@@ -99,6 +111,10 @@ const App: () => React$Node = () => {
 const styles = StyleSheet.create({
   searchIcon: {
     marginRight: 20,
+  },
+  drawerItem: {
+    borderRadius: 0,
+    marginHorizontal: 0,
   },
 });
 
