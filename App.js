@@ -13,10 +13,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameList from 'containers/GameList/GameList';
 import GameProfile from 'containers/GameProfile/GameProfile';
 import GameSearch from 'containers/GameSearch/GameSearch';
+import AddReview from 'containers/AddReview/AddReview';
 import SearchInput from 'components/SearchInput/SearchInput';
 import {
   navigationRef,
   navigate,
+  goBack,
 } from 'components/RootNavigation/RootNavigation';
 import configureStore from './src/redux/store/index';
 import {
@@ -95,10 +97,22 @@ const App: () => React$Node = () => {
               headerTintColor: FONT_COLOR,
               headerTitle: <SearchInput />,
               headerLeft: (props) => (
-                <HeaderBackButton
-                  {...props}
-                  onPress={() => navigate('GameList')}
-                />
+                <HeaderBackButton {...props} onPress={() => goBack()} />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="AddReview"
+            component={AddReview}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: PRIMARY_COLOR,
+              },
+              headerTintColor: FONT_COLOR,
+              headerTitle: 'Add Review',
+              headerLeft: (props) => (
+                <HeaderBackButton {...props} onPress={() => goBack()} />
               ),
             }}
           />

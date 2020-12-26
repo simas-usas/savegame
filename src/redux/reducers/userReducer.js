@@ -1,9 +1,10 @@
 import { map, indexOf } from 'lodash';
 
-import { SET_GAME_RATING } from '../actions/eventTypes';
+import { SET_GAME_RATING, SET_GAME_REVIEW } from '../actions/eventTypes';
 
 const initialState = {
   ratings: [],
+  reviews: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -21,6 +22,9 @@ const userReducer = (state = initialState, action) => {
       } else {
         return { ...state, ratings: [...state.ratings, action.payload] };
       }
+    case SET_GAME_REVIEW: {
+      return { ...state, reviews: [...state.reviews, action.payload] };
+    }
     default:
       return state;
   }

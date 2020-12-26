@@ -8,24 +8,33 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { map, find, filter } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR } from '../../styles/colors';
 import data from '../../data';
 
 const { width, height } = Dimensions.get('window');
 
 const selectRatingById = (state, id) => {
-  return state.user.ratings.find((rating) => rating.id === id);
+  return find(state.user.ratings, (rating) => rating.id === id);
+};
+
+const selectReviewById = (state, id) => {
+  return map(
+    filter(state.user.reviews, (review) => review.id === id),
+    (review) => review.reviewText,
+  );
 };
 
 const ratingOptions = [1, 2, 3, 4, 5];
 
-const GameProfile = ({ route }) => {
+const GameProfile = ({ route, navigation }) => {
   const id = route.params.id;
   const game = data.find((item) => item.id === id);
   const userRating = useSelector((state) => selectRatingById(state, id));
   const userRatingValue = userRating ? userRating.rating : 0;
+  const reviews = useSelector((state) => selectReviewById(state, id));
 
   const dispatch = useDispatch();
 
@@ -34,33 +43,49 @@ const GameProfile = ({ route }) => {
   };
 
   return (
-    <View>
-      <View style={styles.gameProfile}>
-        <View style={styles.imageContainer}>
-          <Image source={game.image} style={styles.image} />
-        </View>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{game.title}</Text>
-          <Text style={styles.year}>({game.year})</Text>
-          <View style={styles.developerContainer}>
-            <Text style={styles.defaultText}>Developed by</Text>
-            <Text style={styles.developer}>{game.developer}</Text>
+    <>
+      <View>
+        <View style={styles.gameProfile}>
+          <View style={styles.imageContainer}>
+            <Image source={game.image} style={styles.image} />
+          </View>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.title}>{game.title}</Text>
+            <Text style={styles.year}>({game.year})</Text>
+            <View style={styles.developerContainer}>
+              <Text style={styles.defaultText}>Developed by</Text>
+              <Text style={styles.developer}>{game.developer}</Text>
+            </View>
           </View>
         </View>
+        <View style={styles.ratingsContainer}>
+          {ratingOptions.map((rating) => (
+            <TouchableWithoutFeedback
+              key={rating}
+              onPress={() => onRate(rating)}
+            >
+              <Icon
+                name="star"
+                size={50}
+                color={ICON_COLOR}
+                solid={userRatingValue >= rating}
+              />
+            </TouchableWithoutFeedback>
+          ))}
+        </View>
       </View>
-      <View style={styles.ratingsContainer}>
-        {ratingOptions.map((rating) => (
-          <TouchableWithoutFeedback key={rating} onPress={() => onRate(rating)}>
-            <Icon
-              name="star"
-              size={50}
-              color={FONT_COLOR}
-              solid={userRatingValue >= rating}
-            />
-          </TouchableWithoutFeedback>
-        ))}
+      <View style={styles.addButton}>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('AddReview', {
+              id,
+            })
+          }
+        >
+          <Icon name="plus-circle" size={45} color={ICON_COLOR} solid />
+        </TouchableWithoutFeedback>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -87,6 +112,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    display: 'flex',
+    alignItems: 'flex-end',
+    marginRight: width * 0.05,
+    marginBottom: width * 0.05,
   },
   image: {
     flex: 1,
