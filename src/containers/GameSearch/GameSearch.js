@@ -12,37 +12,34 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('window');
 
 const GameSearch = ({ navigation }) => {
-  const searchInputValue = useSelector((state) => state.session.searchInput);
+  const searchInputValue = useSelector(state => state.session.searchInput);
   const gameList = searchInputValue
-    ? filter(data, (item) =>
-        includes(item.title.toLowerCase(), searchInputValue.toLowerCase()),
-      )
+    ? filter(data, item => includes(item.title.toLowerCase(), searchInputValue.toLowerCase()))
     : [];
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      style={styles.scrollView}
-    >
+    <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
       <View style={styles.imageContainer}>
-        {map(orderBy(gameList, ['year'], ['desc']), (item) => (
-          <TouchableOpacity
-            key={item.id}
-            onPress={() =>
-              navigation.navigate('GameProfile', {
-                id: item.id,
-              })
-            }
-          >
-            <View style={styles.itemContainer}>
-              <GameThumbnail data={item} navigation={navigation} />
-              <View style={styles.textContainer}>
-                <Text style={styles.titleText}>{item.title}</Text>
-                <Text style={styles.yearText}>{item.year}</Text>
+        {map(orderBy(gameList, ['year'], ['desc']), item => (
+          <>
+            <TouchableOpacity
+              key={item.id}
+              onPress={() =>
+                navigation.navigate('GameProfile', {
+                  id: item.id,
+                })
+              }
+            >
+              <View style={styles.itemContainer}>
+                <GameThumbnail data={item} navigation={navigation} />
+                <View style={styles.textContainer}>
+                  <Text style={styles.titleText}>{item.title}</Text>
+                  <Text style={styles.yearText}>{item.year}</Text>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
             <View style={styles.itemBorder} />
-          </TouchableOpacity>
+          </>
         ))}
       </View>
     </ScrollView>

@@ -9,11 +9,11 @@ import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
 const { height, width } = Dimensions.get('window');
 
 const selectRatingById = (state, id) => {
-  return state.user.ratings.find((rating) => rating.id === id);
+  return state.user.ratings.find(rating => rating.id === id);
 };
 
-const GameThumbnail = ({ data, navigation, showRating }) => {
-  const userRating = useSelector((state) => selectRatingById(state, data.id));
+const GameThumbnail = ({ data, showRating }) => {
+  const userRating = useSelector(state => selectRatingById(state, data.id));
   return (
     <>
       <View style={styles.imageContainer}>

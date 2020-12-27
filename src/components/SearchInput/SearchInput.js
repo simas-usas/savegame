@@ -16,7 +16,7 @@ const SearchInput = () => {
     }
   });
 
-  const onInputChange = (event) => {
+  const onInputChange = event => {
     dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload: event });
   };
 

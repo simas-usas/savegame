@@ -1,3 +1,8 @@
+export const user = {
+  avatar: require('./images/hCKZdDMK.jpg'),
+  name: 'Belle Delphine',
+};
+
 export default [
   {
     id: 1,
@@ -225,11 +230,11 @@ export default [
   },
   {
     id: 29,
-    title: 'Need for Speed: Most Wanted',
-    year: 2012,
-    image: require('./images/co20a5.jpg'),
-    developer: 'Criterion Games',
-    publisher: 'Electronic Arts',
+    title: 'Persona 5 Royal',
+    year: 2020,
+    image: require('./images/co1nic.jpg'),
+    developer: 'Atlus',
+    publisher: 'Atlus',
   },
   {
     id: 30,
