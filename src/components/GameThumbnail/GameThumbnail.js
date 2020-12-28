@@ -1,6 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
-import { useSelector } from 'react-redux';
 import { fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -8,30 +8,25 @@ import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
 
 const { height, width } = Dimensions.get('window');
 
-const selectRatingById = (state, id) => {
-  return state.user.ratings.find(rating => rating.id === id);
-};
+const selectRatingById = (ratings, id) => ratings.find(rating => rating.id === id);
 
-const GameThumbnail = ({ data, showRating }) => {
-  const userRating = useSelector(state => selectRatingById(state, data.id));
-  return (
-    <>
-      <View style={styles.imageContainer}>
-        <Image source={data.image} style={styles.image} />
+const GameThumbnail = ({ data, showRating, ratings }) => (
+  <>
+    <View style={styles.imageContainer}>
+      <Image source={data.image} style={styles.image} />
+    </View>
+    {showRating && (
+      <View style={styles.ratingContainer}>
+        {fill(
+          Array(selectRatingById(ratings, data.id).rating),
+          <View style={styles.icon}>
+            <Icon name="star" color={FONT_COLOR} solid size={9} />
+          </View>,
+        )}
       </View>
-      {showRating && (
-        <View style={styles.ratingContainer}>
-          {fill(
-            Array(userRating.rating),
-            <View style={styles.icon}>
-              <Icon name="star" color={FONT_COLOR} solid size={9} />
-            </View>,
-          )}
-        </View>
-      )}
-    </>
-  );
-};
+    )}
+  </>
+);
 
 const styles = StyleSheet.create({
   imageContainer: {
@@ -60,4 +55,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameThumbnail;
+const mapStateToProps = ({ user }) => {
+  return {
+    ratings: user.ratings,
+  };
+};
+
+export default connect(mapStateToProps)(GameThumbnail);

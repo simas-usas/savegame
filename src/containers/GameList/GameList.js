@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
@@ -9,13 +9,24 @@ const { width } = Dimensions.get('window');
 
 import data from '../../data';
 
-const GameList = ({ navigation }) => {
-  const userRatings = useSelector(state => map(state.user.ratings, item => item.id));
-  const gameList = filter(data, item => includes(userRatings, item.id));
+const getGamesByRating = ratings =>
+  orderBy(
+    filter(data, game =>
+      includes(
+        map(ratings, rating => rating.id),
+        game.id,
+      ),
+    ),
+    ['year'],
+    ['desc'],
+  );
+
+const GameList = ({ navigation, ...props }) => {
+  const { ratings } = props;
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
       <View style={styles.imageContainer}>
-        {map(orderBy(gameList, ['year'], ['desc']), item => (
+        {map(getGamesByRating(ratings), item => (
           <TouchableOpacity
             key={item.id}
             onPress={() =>
@@ -44,4 +55,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameList;
+const mapStateToProps = ({ user }) => {
+  return {
+    ratings: user.ratings,
+  };
+};
+
+export default connect(mapStateToProps)(GameList);

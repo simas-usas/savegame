@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -8,7 +9,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 import { find } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -17,21 +17,18 @@ import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR, SECONDARY_COLOR } from '../../st
 const { width, height } = Dimensions.get('window');
 const ratingOptions = [1, 2, 3, 4, 5];
 
-const selectReviewById = (state, id) => {
-  return find(state.user.reviews, review => review.id === id);
-};
+const selectReviewById = (reviews, id) => find(reviews, review => review.id === id);
 
-const selectRatingById = (state, id) => {
-  return find(state.user.ratings, rating => rating.id === id);
-};
+const selectRatingById = (ratings, id) => find(ratings, rating => rating.id === id);
 
-const AddReview = ({ route, navigation }) => {
+const AddReview = ({ route, navigation, ...props }) => {
+  const id = route.params.id;
+  const { reviews, ratings } = props;
   const [reviewText, setReviewText] = useState('');
   const dispatch = useDispatch();
-  const id = route.params.id;
-  const userReview = useSelector(state => selectReviewById(state, id));
-  const userRating = useSelector(state => selectRatingById(state, id));
-  const userRatingValue = userRating ? userRating.rating : 0;
+
+  const userReview = selectReviewById(reviews, id);
+  const userRatingValue = selectRatingById(ratings, id) ? selectRatingById(ratings, id).rating : 0;
 
   useEffect(() => {
     if (userReview) {
@@ -131,4 +128,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddReview;
+const mapStateToProps = ({ user }) => {
+  return {
+    ratings: user.ratings,
+    reviews: user.reviews,
+  };
+};
+
+export default connect(mapStateToProps)(AddReview);

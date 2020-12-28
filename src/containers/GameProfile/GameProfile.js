@@ -1,31 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, View, Dimensions, Image, Text, TouchableWithoutFeedback } from 'react-native';
-import { useSelector } from 'react-redux';
 import { map, filter, find, fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR } from '../../styles/colors';
-import data, { user } from '../../data';
+import data, { user as userData } from '../../data';
 
 const { width, height } = Dimensions.get('window');
 
-const selectRatingById = (state, id) => {
-  const ratingObject = find(state.user.ratings, rating => rating.id === id);
+const selectRatingById = (ratings, id) => {
+  const ratingObject = find(ratings, rating => rating.id === id);
   return ratingObject && ratingObject.rating;
 };
 
-const selectReviewById = (state, id) => {
-  return map(
-    filter(state.user.reviews, review => review.id === id),
+const selectReviewById = (reviews, id) =>
+  map(
+    filter(reviews, review => review.id === id),
     item => item.reviewText,
   );
-};
 
-const GameProfile = ({ route, navigation }) => {
+const GameProfile = ({ route, navigation, ...props }) => {
   const id = route.params.id;
   const game = data.find(item => item.id === id);
-  const reviews = useSelector(state => selectReviewById(state, id));
-  const rating = useSelector(state => selectRatingById(state, id));
+  const { reviews, ratings } = props;
 
   return (
     <>
@@ -47,16 +45,16 @@ const GameProfile = ({ route, navigation }) => {
           <Text style={styles.reviewHeaderText}>REVIEWS</Text>
         </View>
         <View style={styles.reviewsContainer}>
-          {map(reviews, review => (
+          {map(selectReviewById(reviews, id), review => (
             <View style={styles.reviewContainer}>
               <View style={styles.avatarAndRatingContainer}>
                 <View style={styles.userAvatarContainer}>
-                  <Image source={user.avatar} style={styles.userAvatar} />
+                  <Image source={userData.avatar} style={styles.userAvatar} />
                 </View>
                 <View style={styles.ratingContainer}>
-                  {rating &&
+                  {selectRatingById(ratings, id) &&
                     fill(
-                      Array(rating),
+                      Array(selectRatingById(ratings, id)),
                       <View style={styles.icon}>
                         <Icon name="star" color={FONT_COLOR} solid size={9} />
                       </View>,
@@ -64,7 +62,7 @@ const GameProfile = ({ route, navigation }) => {
                 </View>
               </View>
               <View>
-                <Text style={styles.userName}>{user.name}</Text>
+                <Text style={styles.userName}>{userData.name}</Text>
                 <Text key={review} style={styles.reviewText}>
                   {review}
                 </Text>
@@ -212,4 +210,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameProfile;
+const mapStateToProps = ({ user }) => {
+  return {
+    ratings: user.ratings,
+    reviews: user.reviews,
+  };
+};
+
+export default connect(mapStateToProps)(GameProfile);
