@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
 import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
@@ -55,10 +55,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user }) => {
-  return {
-    ratings: user.ratings,
-  };
-};
+const mapStateToProps = ({ user: ratings }) => ({
+  ratings,
+});
 
 export default connect(mapStateToProps)(GameList);

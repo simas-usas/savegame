@@ -21,9 +21,9 @@ const selectReviewById = (reviews, id) =>
   );
 
 const GameProfile = ({ route, navigation, ...props }) => {
-  const id = route.params.id;
-  const game = data.find(item => item.id === id);
+  const { id } = route.params;
   const { reviews, ratings } = props;
+  const game = data.find(item => item.id === id);
 
   return (
     <>
@@ -210,11 +210,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user }) => {
-  return {
-    ratings: user.ratings,
-    reviews: user.reviews,
-  };
-};
+const mapStateToProps = ({ user: { ratings, reviews } }) => ({
+  ratings,
+  reviews,
+});
 
 export default connect(mapStateToProps)(GameProfile);

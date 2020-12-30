@@ -1,14 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
 import { FONT_COLOR } from '../../styles/colors';
 
-const SearchInput = () => {
+const SearchInput = props => {
   const isFocused = useIsFocused();
   const inputRef = useRef();
-  const dispatch = useDispatch();
+  const { setGameSearchInput } = props;
 
   useEffect(() => {
     if (isFocused) {
@@ -16,15 +16,11 @@ const SearchInput = () => {
     }
   });
 
-  const onInputChange = event => {
-    dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload: event });
-  };
-
   return (
     <View>
       <TextInput
         ref={inputRef}
-        onChangeText={onInputChange}
+        onChangeText={e => setGameSearchInput(e)}
         placeholder="Search..."
         placeholderTextColor={FONT_COLOR}
         style={styles.inputStyle}
@@ -40,4 +36,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchInput;
+const mapDispatchToProps = dispatch => ({
+  setGameSearchInput: payload => dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload }),
+});
+
+export default connect(null, mapDispatchToProps)(SearchInput);

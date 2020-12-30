@@ -55,10 +55,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user }) => {
-  return {
-    ratings: user.ratings,
-  };
-};
+const mapStateToProps = ({ user: { ratings } }) => ({
+  ratings,
+});
 
 export default connect(mapStateToProps)(GameThumbnail);

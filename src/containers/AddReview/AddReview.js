@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -18,14 +18,12 @@ const { width, height } = Dimensions.get('window');
 const ratingOptions = [1, 2, 3, 4, 5];
 
 const selectReviewById = (reviews, id) => find(reviews, review => review.id === id);
-
 const selectRatingById = (ratings, id) => find(ratings, rating => rating.id === id);
 
 const AddReview = ({ route, navigation, ...props }) => {
-  const id = route.params.id;
-  const { reviews, ratings } = props;
+  const { id } = route.params;
+  const { reviews, ratings, setGameRating, setGameReview } = props;
   const [reviewText, setReviewText] = useState('');
-  const dispatch = useDispatch();
 
   const userReview = selectReviewById(reviews, id);
   const userRatingValue = selectRatingById(ratings, id) ? selectRatingById(ratings, id).rating : 0;
@@ -38,15 +36,8 @@ const AddReview = ({ route, navigation, ...props }) => {
     }
   }, [userReview]);
 
-  const onRate = rating => {
-    dispatch({ type: 'SET_GAME_RATING', payload: { rating, id } });
-  };
-
   const onSubmit = () => {
-    dispatch({
-      type: 'SET_GAME_REVIEW',
-      payload: { id, reviewText },
-    });
+    setGameReview(reviewText, id);
     setReviewText('');
     navigation.goBack();
   };
@@ -64,7 +55,7 @@ const AddReview = ({ route, navigation, ...props }) => {
       <View style={styles.buttonContainer}>
         <View style={styles.ratingsContainer}>
           {ratingOptions.map(rating => (
-            <TouchableWithoutFeedback key={rating} onPress={() => onRate(rating)}>
+            <TouchableWithoutFeedback key={rating} onPress={() => setGameRating(rating, id)}>
               <Icon name="star" size={50} color={userRatingValue >= rating ? ICON_COLOR : SECONDARY_COLOR} solid />
             </TouchableWithoutFeedback>
           ))}
@@ -128,11 +119,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user }) => {
-  return {
-    ratings: user.ratings,
-    reviews: user.reviews,
-  };
-};
+const mapStateToProps = ({ user: { ratings, reviews } }) => ({
+  ratings,
+  reviews,
+});
 
-export default connect(mapStateToProps)(AddReview);
+const mapDispatchToProps = dispatch => ({
+  setGameRating: (rating, id) => dispatch({ type: 'SET_GAME_RATING', payload: { rating, id } }),
+  setGameReview: (reviewText, id) => dispatch({ type: 'SET_GAME_REVIEW', payload: { reviewText, id } }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddReview);

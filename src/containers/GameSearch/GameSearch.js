@@ -84,10 +84,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ session }) => {
-  return {
-    searchInput: session.searchInput,
-  };
-};
+const mapStateToProps = ({ session: { searchInput } }) => ({
+  searchInput,
+});
 
 export default connect(mapStateToProps)(GameSearch);
