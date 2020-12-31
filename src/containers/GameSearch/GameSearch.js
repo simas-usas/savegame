@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, StyleSheet, View, Dimensions, Text } from 'react-native';
 import { orderBy, map, filter, includes } from 'lodash';

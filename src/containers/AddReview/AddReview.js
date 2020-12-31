@@ -24,21 +24,30 @@ const AddReview = ({ route, navigation, ...props }) => {
   const { id } = route.params;
   const { reviews, ratings, setGameRating, setGameReview } = props;
   const [reviewText, setReviewText] = useState('');
+  const [rating, setRating] = useState('');
 
   const userReview = selectReviewById(reviews, id);
   const userRatingValue = selectRatingById(ratings, id) ? selectRatingById(ratings, id).rating : 0;
 
   useEffect(() => {
+    if (userRatingValue) {
+      setRating(userRatingValue);
+    } else {
+      setRating(0);
+    }
     if (userReview) {
       setReviewText(userReview.reviewText);
     } else {
       setReviewText('');
     }
-  }, [userReview]);
+  }, [userReview, userRatingValue]);
 
   const onSubmit = () => {
-    setGameReview(reviewText, id);
-    setReviewText('');
+    setGameRating(rating, id);
+    if (reviewText) {
+      setGameReview(reviewText, id);
+      setReviewText('');
+    }
     navigation.goBack();
   };
 
@@ -54,16 +63,16 @@ const AddReview = ({ route, navigation, ...props }) => {
       />
       <View style={styles.buttonContainer}>
         <View style={styles.ratingsContainer}>
-          {ratingOptions.map(rating => (
-            <TouchableWithoutFeedback key={rating} onPress={() => setGameRating(rating, id)}>
-              <Icon name="star" size={50} color={userRatingValue >= rating ? ICON_COLOR : SECONDARY_COLOR} solid />
+          {ratingOptions.map(item => (
+            <TouchableWithoutFeedback key={item} onPress={() => setRating(item)}>
+              <Icon name="star" size={50} color={rating >= item ? ICON_COLOR : SECONDARY_COLOR} solid />
             </TouchableWithoutFeedback>
           ))}
         </View>
         <TouchableOpacity
-          disabled={!reviewText || !userRatingValue}
+          disabled={!rating}
           onPress={() => onSubmit()}
-          style={reviewText && userRatingValue ? styles.submitButton : styles.disabledSubmitButton}
+          style={!rating ? styles.submitButton : styles.disabledSubmitButton}
         >
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>

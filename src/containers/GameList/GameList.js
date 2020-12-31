@@ -23,6 +23,7 @@ const getGamesByRating = ratings =>
 
 const GameList = ({ navigation, ...props }) => {
   const { ratings } = props;
+  console.log
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
       <View style={styles.imageContainer}>
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user: ratings }) => ({
+const mapStateToProps = ({ user: { ratings } }) => ({
   ratings,
 });
 

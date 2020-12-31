@@ -8,11 +8,13 @@ import { FONT_COLOR } from '../../styles/colors';
 const SearchInput = props => {
   const isFocused = useIsFocused();
   const inputRef = useRef();
-  const { setGameSearchInput } = props;
+  const { setGameSearchInput, searchInput } = props;
 
   useEffect(() => {
     if (isFocused) {
       inputRef.current.focus();
+    } else {
+      setGameSearchInput('');
     }
   });
 
@@ -20,6 +22,7 @@ const SearchInput = props => {
     <View>
       <TextInput
         ref={inputRef}
+        value={searchInput}
         onChangeText={e => setGameSearchInput(e)}
         placeholder="Search..."
         placeholderTextColor={FONT_COLOR}
@@ -35,9 +38,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+const mapStateToProps = ({ session: { searchInput } }) => ({
+  searchInput,
+});
 
 const mapDispatchToProps = dispatch => ({
   setGameSearchInput: payload => dispatch({ type: 'SET_GAME_SEARCH_INPUT', payload }),
 });
 
-export default connect(null, mapDispatchToProps)(SearchInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);
