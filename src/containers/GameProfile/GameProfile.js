@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Dimensions, Image, Text, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, Text, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { map, filter, find, fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import LinearGradient from 'react-native-linear-gradient';
 
-import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR } from '../../styles/colors';
+import {
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  SECONDARY_COLOR_TRANSPARENT,
+  FONT_COLOR,
+  ICON_COLOR,
+} from '../../styles/colors';
 import data, { user as userData } from '../../data';
 
 const { width, height } = Dimensions.get('window');
@@ -27,19 +34,27 @@ const GameProfile = ({ route, navigation, ...props }) => {
 
   return (
     <>
-      <View style={styles.gameProfile}>
-        <View style={styles.imageContainer}>
-          <Image source={game.image} style={styles.image} />
-        </View>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{game.title}</Text>
-          <Text style={styles.year}>({game.year})</Text>
-          <View style={styles.developerContainer}>
-            <Text style={styles.defaultText}>Developed by</Text>
-            <Text style={styles.developer}>{game.developer}</Text>
+      <ImageBackground
+        source={game.background}
+        style={styles.backgroundImageContainer}
+        imageStyle={styles.backgroundImage}
+      >
+        <LinearGradient colors={[SECONDARY_COLOR_TRANSPARENT, SECONDARY_COLOR]} locations={[0, 0.75]}>
+          <View style={styles.gameProfile}>
+            <View style={styles.imageContainer}>
+              <Image source={game.image} style={styles.image} />
+            </View>
+            <View style={styles.detailsContainer}>
+              <Text style={styles.title}>{game.title}</Text>
+              <Text style={styles.year}>({game.year})</Text>
+              <View style={styles.developerContainer}>
+                <Text style={styles.defaultText}>Developed by</Text>
+                <Text style={styles.developer}>{game.developer}</Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
+        </LinearGradient>
+      </ImageBackground>
       <View>
         <View style={styles.reviewHeaderContainer}>
           <Text style={styles.reviewHeaderText}>REVIEWS</Text>
@@ -90,7 +105,9 @@ const GameProfile = ({ route, navigation, ...props }) => {
 const styles = StyleSheet.create({
   gameProfile: {
     flexDirection: 'row',
-    margin: height * 0.025,
+    marginTop: height * 0.125,
+    marginHorizontal: height * 0.025,
+    marginBottom: height * 0.025,
   },
   imageContainer: {
     width: width * 0.3,
@@ -110,6 +127,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+  backgroundImageContainer: {
+    width,
+  },
+  backgroundImage: {
+    marginTop: -(height * 0.05),
   },
   addButton: {
     position: 'absolute',

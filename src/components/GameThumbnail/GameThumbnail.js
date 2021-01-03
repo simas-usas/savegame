@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -8,17 +7,15 @@ import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
 
 const { height, width } = Dimensions.get('window');
 
-const selectRatingById = (ratings, id) => ratings.find(rating => rating.id === id);
-
-const GameThumbnail = ({ data, showRating, ratings }) => (
+const GameThumbnail = ({ data, rating }) => (
   <>
     <View style={styles.imageContainer}>
       <Image source={data.image} style={styles.image} />
     </View>
-    {showRating && (
+    {rating && (
       <View style={styles.ratingContainer}>
         {fill(
-          Array(selectRatingById(ratings, data.id).rating),
+          Array(rating),
           <View style={styles.icon}>
             <Icon name="star" color={FONT_COLOR} solid size={9} />
           </View>,
@@ -55,8 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ user: { ratings } }) => ({
-  ratings,
-});
-
-export default connect(mapStateToProps)(GameThumbnail);
+export default GameThumbnail;

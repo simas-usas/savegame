@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
@@ -9,7 +10,7 @@ const { width } = Dimensions.get('window');
 
 import data from '../../data';
 
-const getGamesByRating = ratings =>
+const getRatedGames = ratings =>
   orderBy(
     filter(data, game =>
       includes(
@@ -21,13 +22,23 @@ const getGamesByRating = ratings =>
     ['desc'],
   );
 
+const getGameRating = (ratings, id) => ratings.find(rating => rating.id === id);
+
 const GameList = ({ navigation, ...props }) => {
   const { ratings } = props;
-  console.log
+  const [userRatings, setUserRatings] = useState([]);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      setUserRatings(ratings);
+    }
+  }, [isFocused, ratings]);
+
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
       <View style={styles.imageContainer}>
-        {map(getGamesByRating(ratings), item => (
+        {map(getRatedGames(userRatings), item => (
           <TouchableOpacity
             key={item.id}
             onPress={() =>
@@ -36,7 +47,7 @@ const GameList = ({ navigation, ...props }) => {
               })
             }
           >
-            <GameThumbnail data={item} navigation={navigation} showRating />
+            <GameThumbnail data={item} navigation={navigation} rating={getGameRating(userRatings, item.id).rating} />
           </TouchableOpacity>
         ))}
       </View>

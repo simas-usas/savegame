@@ -72,7 +72,7 @@ const AddReview = ({ route, navigation, ...props }) => {
         <TouchableOpacity
           disabled={!rating}
           onPress={() => onSubmit()}
-          style={!rating ? styles.submitButton : styles.disabledSubmitButton}
+          style={rating ? styles.submitButton : styles.disabledSubmitButton}
         >
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
