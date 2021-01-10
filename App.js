@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { HeaderBackButton } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import SplashScreen from 'react-native-splash-screen'
 
 import GameList from 'containers/GameList/GameList';
 import GameProfile from 'containers/GameProfile/GameProfile';
@@ -24,6 +25,10 @@ const theme = {
 };
 
 const App: () => React$Node = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
   return (
     <Provider store={configureStore}>
       <NavigationContainer theme={theme} ref={navigationRef}>
