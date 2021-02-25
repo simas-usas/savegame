@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Dimensions, Image, Text, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, Text, ImageBackground } from 'react-native';
 import { map, filter, find, fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient';
 
-import {
-  PRIMARY_COLOR,
-  SECONDARY_COLOR,
-  SECONDARY_COLOR_TRANSPARENT,
-  FONT_COLOR,
-  ICON_COLOR,
-} from '../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_COLOR_TRANSPARENT, FONT_COLOR } from 'styles/colors';
+import AddButton from 'components/AddButton/AddButton';
 import data, { user as userData } from '../../data';
 
 const { width, height } = Dimensions.get('window');
@@ -87,17 +82,13 @@ const GameProfile = ({ route, navigation, ...props }) => {
           ))}
         </View>
       </View>
-      <View style={styles.addButton}>
-        <TouchableWithoutFeedback
-          onPress={() =>
-            navigation.navigate('AddReview', {
-              id,
-            })
-          }
-        >
-          <Icon name="plus-circle" size={45} color={ICON_COLOR} solid />
-        </TouchableWithoutFeedback>
-      </View>
+      <AddButton
+        onPress={() =>
+          navigation.navigate('AddReview', {
+            id,
+          })
+        }
+      />
     </>
   );
 };

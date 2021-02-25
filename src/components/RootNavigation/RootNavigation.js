@@ -9,3 +9,7 @@ export function goBack() {
 export function navigate(name, params) {
   navigationRef.current?.navigate(name, params);
 }
+
+export function getRouteParams(name) {
+  return navigationRef.current?.getRootState().routes.find(route => route.name === name).params;
+}

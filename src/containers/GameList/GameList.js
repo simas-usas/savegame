@@ -6,7 +6,7 @@ import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 import data from '../../data';
 
@@ -24,8 +24,7 @@ const getRatedGames = ratings =>
 
 const getGameRating = (ratings, id) => ratings.find(rating => rating.id === id);
 
-const GameList = ({ navigation, ...props }) => {
-  const { ratings } = props;
+const GameList = ({ navigation, ratings }) => {
   const [userRatings, setUserRatings] = useState([]);
   const isFocused = useIsFocused();
 
@@ -57,7 +56,7 @@ const GameList = ({ navigation, ...props }) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    height: Dimensions.get('window').height,
+    height,
   },
   imageContainer: {
     flex: 1,

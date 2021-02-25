@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { fill } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, FONT_COLOR } from 'styles/colors';
 
 const { height, width } = Dimensions.get('window');
 

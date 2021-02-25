@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, StyleSheet, View, Dimensions, Text } from 'react-native';
 import { orderBy, map, filter, includes } from 'lodash';
 
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
 
-import { PRIMARY_COLOR, FONT_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, FONT_COLOR } from 'styles/colors';
 import data from '../../data';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
-const GameSearch = ({ navigation, searchInput }) => {
+const GameSearch = ({ navigation, searchInput, route }) => {
+  const { onPress } = route.params;
   const gameList = searchInput
     ? filter(data, item => includes(item.title.toLowerCase(), searchInput.toLowerCase()))
     : [];
@@ -21,14 +22,7 @@ const GameSearch = ({ navigation, searchInput }) => {
       <View style={styles.imageContainer}>
         {map(orderBy(gameList, ['year'], ['desc']), item => (
           <>
-            <TouchableOpacity
-              key={item.id}
-              onPress={() =>
-                navigation.navigate('GameProfile', {
-                  id: item.id,
-                })
-              }
-            >
+            <TouchableOpacity key={item.id} onPress={() => onPress(item.id)}>
               <View style={styles.itemContainer}>
                 <GameThumbnail data={item} navigation={navigation} />
                 <View style={styles.textContainer}>

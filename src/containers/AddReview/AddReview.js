@@ -12,7 +12,7 @@ import {
 import { find } from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, FONT_COLOR, ICON_COLOR, SECONDARY_COLOR } from 'styles/colors';
 
 const { width, height } = Dimensions.get('window');
 const ratingOptions = [1, 2, 3, 4, 5];

@@ -3,12 +3,11 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
-import { FONT_COLOR } from '../../styles/colors';
+import { FONT_COLOR } from 'styles/colors';
 
-const SearchInput = props => {
+const SearchInput = ({ setGameSearchInput, searchInput }) => {
   const isFocused = useIsFocused();
   const inputRef = useRef();
-  const { setGameSearchInput, searchInput } = props;
 
   useEffect(() => {
     if (isFocused) {
@@ -26,18 +25,19 @@ const SearchInput = props => {
         onChangeText={e => setGameSearchInput(e)}
         placeholder="Search..."
         placeholderTextColor={FONT_COLOR}
-        style={styles.inputStyle}
+        style={styles.searchInput}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  inputStyle: {
+  searchInput: {
     color: FONT_COLOR,
     fontSize: 18,
   },
 });
+
 const mapStateToProps = ({ session: { searchInput } }) => ({
   searchInput,
 });

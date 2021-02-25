@@ -2,19 +2,23 @@ import React, { useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { HeaderBackButton } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
 
 import GameList from 'containers/GameList/GameList';
 import GameProfile from 'containers/GameProfile/GameProfile';
 import GameSearch from 'containers/GameSearch/GameSearch';
 import AddReview from 'containers/AddReview/AddReview';
+import UserLists from 'containers/UserLists/UserLists';
+
 import SearchInput from 'components/SearchInput/SearchInput';
-import { navigationRef, navigate, goBack } from 'components/RootNavigation/RootNavigation';
+import SideNavigation from 'components/SideNavigation/SideNavigation';
+import { navigationRef, navigate, goBack, getRouteParams } from 'components/RootNavigation/RootNavigation';
+import { FONT_COLOR, PRIMARY_COLOR, SECONDARY_COLOR } from 'styles/colors';
 import configureStore from './src/redux/store/index';
-import { FONT_COLOR, PRIMARY_COLOR, SECONDARY_COLOR } from './src/styles/colors';
+import AddList from './src/containers/AddList/AddList';
 
 const Drawer = createDrawerNavigator();
 
@@ -28,24 +32,11 @@ const App: () => React$Node = () => {
   useEffect(() => {
     SplashScreen.hide();
   });
-
   return (
     <Provider store={configureStore}>
       <NavigationContainer theme={theme} ref={navigationRef}>
         <Drawer.Navigator
-          drawerContent={props => (
-            <DrawerContentScrollView {...props}>
-              <DrawerItem
-                label="Home"
-                focused={props.state.index === 0}
-                onPress={() => navigate('GameList')}
-                activeTintColor={FONT_COLOR}
-                activeBackgroundColor={PRIMARY_COLOR}
-                inactiveTintColor={FONT_COLOR}
-                style={styles.drawerItem}
-              />
-            </DrawerContentScrollView>
-          )}
+          drawerContent={props => <SideNavigation {...props} />}
           drawerStyle={{
             backgroundColor: SECONDARY_COLOR,
           }}
@@ -61,8 +52,14 @@ const App: () => React$Node = () => {
                 backgroundColor: PRIMARY_COLOR,
               },
               headerRight: () => (
-                <TouchableWithoutFeedback onPress={() => navigate('GameSearch')}>
-                  <Icon name="search" size={20} color={FONT_COLOR} style={styles.searchIcon} />
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    navigate('GameSearch', {
+                      onPress: id => navigate('GameProfile', { id }),
+                    })
+                  }
+                >
+                  <Icon name="search" size={20} color={FONT_COLOR} style={styles.headerRightIcon} />
                 </TouchableWithoutFeedback>
               ),
             }}
@@ -94,6 +91,42 @@ const App: () => React$Node = () => {
               headerLeft: props => <HeaderBackButton {...props} onPress={() => goBack()} />,
             }}
           />
+          <Drawer.Screen
+            name="UserLists"
+            component={UserLists}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: PRIMARY_COLOR,
+              },
+              headerTintColor: FONT_COLOR,
+              headerTitle: 'Your Lists',
+              headerLeft: props => <HeaderBackButton {...props} onPress={() => goBack()} />,
+            }}
+          />
+          <Drawer.Screen
+            name="AddList"
+            component={AddList}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: PRIMARY_COLOR,
+              },
+              headerTintColor: FONT_COLOR,
+              headerTitle: 'Create List',
+              headerLeft: props => <HeaderBackButton {...props} onPress={() => goBack()} />,
+              headerRight: () => (
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    getRouteParams('AddList').onSubmit();
+                    goBack();
+                  }}
+                >
+                  <Icon name="check" size={20} color={FONT_COLOR} style={styles.headerRightIcon} />
+                </TouchableWithoutFeedback>
+              ),
+            }}
+          />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>
@@ -101,7 +134,7 @@ const App: () => React$Node = () => {
 };
 
 const styles = StyleSheet.create({
-  searchIcon: {
+  headerRightIcon: {
     marginRight: 20,
   },
   drawerItem: {
