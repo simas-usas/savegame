@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { map, slice } from 'lodash';
@@ -6,7 +6,7 @@ import { map, slice } from 'lodash';
 import AddButton from 'components/AddButton/AddButton';
 import GameThumbnail from 'components/GameThumbnail/GameThumbnail';
 import PlaceholderText from 'components/PlaceholderText/PlaceholderText';
-import { FONT_COLOR, PRIMARY_COLOR } from 'styles/colors';
+import { FONT_COLOR } from 'styles/colors';
 
 const { width, height } = Dimensions.get('window');
 
