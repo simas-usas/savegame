@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_COLOR_TRANSPARENT, FONT_COLOR } from 'styles/colors';
 import AddButton from 'components/AddButton/AddButton';
+
 import data, { user as userData } from '../../data';
 
 const { width, height } = Dimensions.get('window');

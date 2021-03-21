@@ -1,5 +1,3 @@
-import { map, indexOf } from 'lodash';
-
 import { SET_GAME_RATING, SET_GAME_REVIEW, SET_USER_LIST } from '../actions/eventTypes';
 
 const initialState = {
