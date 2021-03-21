@@ -29,7 +29,7 @@ const SideNavigation = props => (
     />
     <DrawerItem
       label="Lists"
-      focused={props.state.index === 1}
+      focused={props.state.index === 4}
       onPress={() => navigate('UserLists')}
       activeTintColor={FONT_COLOR}
       activeBackgroundColor={PRIMARY_COLOR}
