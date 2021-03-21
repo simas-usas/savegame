@@ -11,31 +11,13 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_GAME_RATING:
-      const ratingIndex = indexOf(
-        map(state.ratings, rating => rating.id),
-        action.payload.id,
-      );
-      if (ratingIndex >= 0) {
-        state.ratings.splice(ratingIndex, 1, action.payload);
-        return {
-          ...state,
-        };
-      } else {
-        return { ...state, ratings: [...state.ratings, action.payload] };
-      }
+      const ratings = new Set(state.ratings);
+      ratings.add(action.payload);
+      return { ...state, ratings: Array.from(ratings) };
     case SET_GAME_REVIEW: {
-      const reviewIndex = indexOf(
-        map(state.reviews, rating => rating.id),
-        action.payload.id,
-      );
-      if (reviewIndex >= 0) {
-        state.reviews.splice(reviewIndex, 1, action.payload);
-        return {
-          ...state,
-        };
-      } else {
-        return { ...state, reviews: [...state.reviews, action.payload] };
-      }
+      const reviews = new Set(state.reviews);
+      reviews.add(action.payload);
+      return { ...state, reviews: Array.from(reviews) };
     }
     case SET_USER_LIST: {
       return { ...state, lists: [...state.lists, action.payload] };
