@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import { navigate } from 'components/RootNavigation/RootNavigation';
 import { FONT_COLOR, PRIMARY_COLOR, SECONDARY_COLOR } from 'styles/colors';
 
@@ -20,15 +22,39 @@ const SideNavigation = props => (
     </View>
     <DrawerItem
       label="Home"
+      icon={() => <Icon color={FONT_COLOR} size={18} name="home" />}
       focused={props.state.index === 0}
-      onPress={() => navigate('GameList')}
+      onPress={() => navigate('Home')}
       activeTintColor={FONT_COLOR}
       activeBackgroundColor={PRIMARY_COLOR}
       inactiveTintColor={FONT_COLOR}
       style={styles.drawerItem}
     />
     <DrawerItem
+      label="Profile"
+      icon={() => <Icon color={FONT_COLOR} size={18} name="user" />}
+      focused={props.state.index === 7}
+      onPress={() => navigate('UserProfile')}
+      activeTintColor={FONT_COLOR}
+      activeBackgroundColor={PRIMARY_COLOR}
+      inactiveTintColor={FONT_COLOR}
+      inactiveBackgroundColor={SECONDARY_COLOR}
+      style={styles.drawerItem}
+    />
+    <DrawerItem
+      label="Backlog"
+      icon={() => <Icon color={FONT_COLOR} size={18} name="clock" />}
+      focused={props.state.index === 6}
+      onPress={() => navigate('Backlog')}
+      activeTintColor={FONT_COLOR}
+      activeBackgroundColor={PRIMARY_COLOR}
+      inactiveTintColor={FONT_COLOR}
+      inactiveBackgroundColor={SECONDARY_COLOR}
+      style={styles.drawerItem}
+    />
+    <DrawerItem
       label="Lists"
+      icon={() => <Icon color={FONT_COLOR} size={18} name="list" />}
       focused={props.state.index === 4}
       onPress={() => navigate('UserLists')}
       activeTintColor={FONT_COLOR}
@@ -56,7 +82,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: PRIMARY_COLOR,
     borderRadius: width / 2,
-    marginBottom: 7.5,
+    marginVertical: 7.5,
   },
   userAvatar: {
     flex: 1,

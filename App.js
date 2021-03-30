@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -7,11 +7,13 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import SplashScreen from 'react-native-splash-screen';
 
-import GameList from 'containers/GameList/GameList';
+import Home from 'containers/Home/Home';
 import GameProfile from 'containers/GameProfile/GameProfile';
 import GameSearch from 'containers/GameSearch/GameSearch';
 import AddReview from 'containers/AddReview/AddReview';
 import UserLists from 'containers/UserLists/UserLists';
+import Backlog from 'containers/Backlog/Backlog';
+import UserProfile from 'containers/UserProfile/UserProfile';
 
 import SearchInput from 'components/SearchInput/SearchInput';
 import SideNavigation from 'components/SideNavigation/SideNavigation';
@@ -42,8 +44,8 @@ const App: () => React$Node = () => {
           }}
         >
           <Drawer.Screen
-            name="GameList"
-            component={GameList}
+            name="Home"
+            component={Home}
             options={{
               headerShown: true,
               headerTintColor: FONT_COLOR,
@@ -125,6 +127,30 @@ const App: () => React$Node = () => {
                   <Icon name="check" size={20} color={FONT_COLOR} style={styles.headerRightIcon} />
                 </TouchableWithoutFeedback>
               ),
+            }}
+          />
+          <Drawer.Screen
+            name="Backlog"
+            component={Backlog}
+            options={{
+              headerShown: true,
+              headerTintColor: FONT_COLOR,
+              headerTitle: 'Backlog',
+              headerStyle: {
+                backgroundColor: PRIMARY_COLOR,
+              },
+            }}
+          />
+          <Drawer.Screen
+            name="UserProfile"
+            component={UserProfile}
+            options={{
+              headerShown: true,
+              headerTintColor: FONT_COLOR,
+              headerTitle: 'Profile',
+              headerStyle: {
+                backgroundColor: PRIMARY_COLOR,
+              },
             }}
           />
         </Drawer.Navigator>

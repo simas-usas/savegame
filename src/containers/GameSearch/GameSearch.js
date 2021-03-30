@@ -24,7 +24,7 @@ const GameSearch = ({ navigation, searchInput, route }) => {
           <>
             <TouchableOpacity key={item.id} onPress={() => onPress(item.id)}>
               <View style={styles.itemContainer}>
-                <GameThumbnail data={item} navigation={navigation} />
+                <GameThumbnail id={item.id} navigation={navigation} />
                 <View style={styles.textContainer}>
                   <Text style={styles.titleText}>{item.title}</Text>
                   <Text style={styles.yearText}>{item.year}</Text>

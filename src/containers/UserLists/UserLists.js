@@ -24,7 +24,7 @@ const UserLists = ({ navigation, lists }) => {
                   <Text style={styles.listTitle}>{list.title}</Text>
                   <View style={styles.entriesContainer}>
                     {map(slice(list.entries, 0, 4), entry => (
-                      <GameThumbnail data={data.find(item => item.id === entry)} />
+                      <GameThumbnail id={data.find(item => item.id === entry).id} />
                     ))}
                   </View>
                 </View>

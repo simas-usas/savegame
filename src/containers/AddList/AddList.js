@@ -40,8 +40,8 @@ const AddList = ({ navigation, setUserList }) => {
         <View style={styles.entriesContainer}>
           {map(
             data.filter(item => entries.some(entry => entry === item.id)),
-            game => (
-              <GameThumbnail data={game} navigation={navigation} />
+            item => (
+              <GameThumbnail id={item.id} navigation={navigation} />
             ),
           )}
         </View>
