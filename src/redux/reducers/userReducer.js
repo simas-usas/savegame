@@ -4,7 +4,7 @@ const initialState = {
   ratings: [],
   reviews: [],
   lists: [],
-  backlog: [13],
+  backlog: [],
 };
 
 const userReducer = (state = initialState, action) => {

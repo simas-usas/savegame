@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Dimensions, Image, Text, ImageBackground } from 'react-native';
 import { map, filter, find, fill } from 'lodash';
@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_COLOR_TRANSPARENT, FONT_COLOR } from 'styles/colors';
 import AddButton from 'components/AddButton/AddButton';
+import LogModal from 'components/LogModal/LogModal';
 
 import data, { user as userData } from '../../data';
 
@@ -27,6 +28,8 @@ const GameProfile = ({ route, navigation, ...props }) => {
   const { id } = route.params;
   const { reviews, ratings } = props;
   const game = data.find(item => item.id === id);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
@@ -83,13 +86,8 @@ const GameProfile = ({ route, navigation, ...props }) => {
           ))}
         </View>
       </View>
-      <AddButton
-        onPress={() =>
-          navigation.navigate('AddReview', {
-            id,
-          })
-        }
-      />
+      <AddButton onPress={() => setModalVisible(true)} />
+      <LogModal navigation={navigation} id={id} visible={modalVisible} onDismiss={() => setModalVisible(false)} />
     </>
   );
 };
